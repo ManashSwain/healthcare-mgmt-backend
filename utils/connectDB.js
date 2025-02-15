@@ -10,7 +10,11 @@ mongoose.connection.on("disconnected" , ()=>{
 
 const connectDB = async ()=>{
     try{  
-        await mongoose.connect(process.env.MONGODB_URI);
+        await mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 5000,
+        });
     }
     catch(err){
         console.error("Error while connecting to database : " , err);
