@@ -2,8 +2,8 @@ import userModel from "../Models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const generateToken = (userId) => {
-    return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
+const generateToken = (userId,userRole,userEmail,userName) => {
+    return jwt.sign({ id: userId,role:userRole,email: userEmail,name: userName }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
 const setCookie = (res, token) => {
@@ -32,10 +32,7 @@ export const registerUser = async (req, res) => {
 
       const hashedPassword = await bcrypt.hash(password, 12);
       const newUser = await userModel.create({ name, email, password: hashedPassword });
-    const token = generateToken(newUser._id);
-
-      setCookie(res, token);
-      return res.status(200).json({ success: true, message: "Registered successfully.",newUser });
+        return res.status(200).json({ success: true, message: "Registered successfully.",newUser });
   } catch (err) {
       console.error("Registration error:", err);
       return res.status(500).json({ success: false, message: "Server error during registration." });
@@ -56,7 +53,7 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ success: false, message: "Invalid email or password." });
         }
 
-        const token = generateToken(user._id);
+        const token = generateToken(user._id,user.role,user.email,user.name);
         setCookie(res, token);
         return res.status(200).json({ success: true, message: "Logged in successfully.",userDetails:user });
     } catch (err) {
