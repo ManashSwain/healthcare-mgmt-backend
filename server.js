@@ -6,12 +6,14 @@ import cors from 'cors';
 
 dotenv.config();
 const app = express();
-const port = 4000 ;
+const port = 5000 ;
 app.use(express.json());
 connectDB();
 app.use(cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000", // Adjust for frontend
-    credentials: true, // Allow cookies to be sent
+    origin: "http://localhost:3000", 
+    credentials: true, 
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+    allowedHeaders: ["Content-Type", "Authorization"], 
 }));
 
 

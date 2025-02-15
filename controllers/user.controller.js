@@ -58,7 +58,7 @@ export const loginUser = async (req, res) => {
 
         const token = generateToken(user._id);
         setCookie(res, token);
-        return res.status(200).json({ success: true, message: "Logged in successfully." });
+        return res.status(200).json({ success: true, message: "Logged in successfully.",userDetails:user });
     } catch (err) {
         console.error("Login error:", err);
         return res.status(500).json({ success: false, message: "Server error during login." });
