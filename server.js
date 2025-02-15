@@ -11,7 +11,7 @@ app.get("/" , (req,res)=>{
     res.status(200).send("Hello world!")
 })
 
-connectDB()
+connectDB();
 
 app.use("/api" , userRouter);
 
