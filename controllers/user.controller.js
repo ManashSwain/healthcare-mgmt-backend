@@ -31,7 +31,7 @@ export const registerUser = async (req, res) => {
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
-      const newUser = await userModel.create({ name, email, password: password });
+      const newUser = await userModel.create({ name, email, password: hashedPassword });
     const token = generateToken(newUser._id);
 
       setCookie(res, token);
